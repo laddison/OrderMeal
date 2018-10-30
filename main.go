@@ -17,8 +17,6 @@ func main() {
 	http.HandleFunc("/save", saveOrder)
 	http.Handle("/templates/", http.StripPrefix("/templates/", http.FileServer(http.Dir("./templates"))))
 
-	cronUpdate()
-
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
