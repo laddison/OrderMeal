@@ -60,7 +60,7 @@ func (this *Order) Insert(username string, menu string, create_time string, user
 
 func (this *Order) Update(menu string, userId int, menuId int) int64 {
 	db, err := sql.Open("sqlite3", "./OrderMeal.db")
-	stmt, err := db.Prepare("UPDATE OrderMenu set menu = ?, menu_id = ? where and status = 0 user_id= ?")
+	stmt, err := db.Prepare("UPDATE OrderMenu set menu = ?, menu_id = ? where  status = 0 and user_id= ?")
 	res, err := stmt.Exec(menu, menuId, userId)
 	num, err := res.RowsAffected()
 	this.CheckErr(err)
