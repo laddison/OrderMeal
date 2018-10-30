@@ -1,0 +1,118 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Golang 点餐小程序</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+    <style>
+        .l10{padding-left: 20px;}
+        .t30{margin-top:30px;}
+        .form-horizontal .radio-inline{margin-right:20px;}
+        .c1{color:ccc;}
+        .l80{margin-left:80px;}
+        .table th{text-align: center;}
+        .table caption span{margin:0 10px;}
+  </style>
+</head>
+<body>
+
+
+<div style="width:800px;margin:0 auto;">
+<h1 class="text-center">Golang 点餐小程序</h1>
+
+<h4>请根据自己的喜好选择套餐</h4>
+<hr />
+
+<form class="form-horizontal" method="post" action="/save">
+<div class="form-group">
+   <label class="col-sm-2 control-label">名字</label>
+   <div class="col-sm-10">
+      <select name="name" id="user_name" class="form-control">
+      {{range $key, $value := .UserName }}
+             <option value="{{$key}}">{{$value}}</option>
+      {{end}}
+      </select>
+   </div>
+  
+</div>
+
+  <div class="form-group">
+    <label class="col-sm-2 control-label">套餐</label>
+    <div class="col-sm-10 order_menu" id="menu">
+      {{range $key, $value := .MenuName }}
+        <label class="radio-inline">
+          <input type="radio" name="menu" id="inlineRadio{{$key}}" value="{{$key}}"> {{$value}}
+        </label>
+      {{end}}
+    </div>
+  </div>
+
+  <div class="c1 t30 l80">注：全素套餐一般为阿拉伯吃的，如果要点也是没关系！</div>
+
+  <div class="form-group  t30">
+      <button type="button" id="sub" class="btn btn-success l80">好 明天就吃这个 ! </button>
+  </div>
+</form>
+
+<hr class="t30" />
+
+<table class="table table-bordered table-hover table-striped t30 text-center">
+  <caption>点餐历史记录
+    
+  {{range  $key, $value := .TotalMenus}}
+   {{if eq $key  0}}
+      <span>米饭套餐 {{$value}} </span>
+    {{else if eq $key  1}}
+      <span>炒饭/炒面套餐 {{$value}}</span>
+    {{else if eq $key  2}}
+      <span>全素套餐 {{$value}} </span>
+   {{end}}
+  {{end}}
+
+  </caption>
+  <thead>
+   <th>id</th> <th>姓名</th> <th>菜单名</th> <th>点餐时间</th>
+  </thead>
+  <tbody>
+    {{range $key, $value := .ListOrder}}
+      <tr>
+          <td>{{.Id}}</td> <td>{{.Username}}</td> <td>{{.Menu}}</td> <td>{{.Created}}</td>
+      </tr>
+    {{end}} 
+  </tbody>
+</table>
+
+</div>
+
+<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="/templates/layer.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    // 默认选中第一个
+    $('.order_menu label:nth-child(1) input').attr('checked', 'checked');
+
+    // 点餐
+    $("#sub").click(function(){
+      var userId = $("#user_name").val();
+      var menuId = $('input[name="menu"]:checked').val();
+      $.post('/save', {name:userId, menu:menuId}, function(data){
+         if (data == 1) {
+          sayHtml('套餐修改成功！')
+         }else{
+          sayHtml('点餐成功！')
+         }
+      },'json')
+    })
+
+    // 弹窗
+    function sayHtml(content) {
+      layer.msg(content, {
+        time: 1500, //1.5秒
+      },function(){
+        location.reload();
+      });
+    }
+
+  })
+</script>
+</body>
+</html>
