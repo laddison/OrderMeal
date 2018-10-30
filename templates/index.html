@@ -55,8 +55,7 @@
 
 <hr class="t30" />
 
-<table class="table table-bordered table-hover table-striped t30 text-center">
-  <caption>点餐历史记录
+<h4>点餐历史记录
     
   {{range  $key, $value := .TotalMenus}}
    {{if eq $key  0}}
@@ -66,9 +65,9 @@
     {{else if eq $key  2}}
       <span>全素套餐 {{$value}} </span>
    {{end}}
-  {{end}}
+  {{end}}</h4>
+<table class="table table-bordered table-hover table-striped t30 text-center">
 
-  </caption>
   <thead>
    <th>id</th> <th>姓名</th> <th>菜单名</th> <th>点餐时间</th>
   </thead>
@@ -81,6 +80,9 @@
   </tbody>
 </table>
 
+<hr class="t30" />
+<h4>一周菜单：</h4>
+<div><img src="/templates/menu.png"></div>
 </div>
 
 <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
