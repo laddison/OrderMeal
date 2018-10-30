@@ -34,8 +34,8 @@ func showIndex(w http.ResponseWriter, r *http.Request) {
 		TotalMenus [3]int
 	}
 
-	orderModel := &model.Order{}
-	userModel := &model.User{}
+	orderModel := model.Order{}
+	userModel := model.User{}
 	list := orderModel.GetList()
 
 	ShowData := data{userModel.GetUser(), userModel.GetMenu(), list, orderModel.GetSumTotal(list)}
@@ -46,8 +46,8 @@ func showIndex(w http.ResponseWriter, r *http.Request) {
 func saveOrder(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
-	orderModel := &model.Order{}
-	userModel := &model.User{}
+	orderModel := model.Order{}
+	userModel := model.User{}
 
 	userList := userModel.GetUser()
 	menuList := userModel.GetMenu()
@@ -74,7 +74,7 @@ func saveOrder(w http.ResponseWriter, r *http.Request) {
 
 //更新状态
 func cronUpdate(w http.ResponseWriter, r *http.Request) {
-	orderModel := &model.Order{}
+	orderModel := model.Order{}
 	affectNum := orderModel.UpdateStatus()
 	fmt.Fprint(w, affectNum)
 }
