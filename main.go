@@ -3,7 +3,6 @@ package main
 import (
 	"OrderMeal/model"
 	"fmt"
-	"github.com/robfig/cron"
 	"html/template"
 	"log"
 	"net/http"
@@ -15,6 +14,7 @@ import (
 func main() {
 	http.HandleFunc("/", showIndex)
 	http.HandleFunc("/save", saveOrder)
+	http.HandleFunc("/upd", cronUpdate)
 	http.Handle("/templates/", http.StripPrefix("/templates/", http.FileServer(http.Dir("./templates"))))
 
 	err := http.ListenAndServe(":8080", nil)
@@ -72,14 +72,9 @@ func saveOrder(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func cronUpdate() {
-	spec := "*/10, *, *, *, *, *" // 每天凌晨2：30
-	c := cron.New()
-	c.AddFunc(spec, callYourFunc)
-	c.Start()
-	select {}
-}
-
-func callYourFunc() {
-	fmt.Println("callYourFunc come here.")
+//更新状态
+func cronUpdate(w http.ResponseWriter, r *http.Request) {
+	orderModel := &model.Order{}
+	affectNum := orderModel.UpdateStatus()
+	fmt.Fprint(w, affectNum)
 }
