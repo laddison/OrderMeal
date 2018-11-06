@@ -33,6 +33,8 @@ func (this *User) GetUser() map[int]string {
 	user[20] = "郑少琼"
 	user[21] = "刘宗斌"
 	user[22] = "郑小龙"
+	user[23] = "陈静康"
+	user[24] = "陈鸿"
 
 	return user
 }
