@@ -10,7 +10,7 @@ type ShowAlert struct {
 
 func (this *User) GetUser() map[int]string {
 	user := make(map[int]string)
-	user[0] = "请选择套餐"
+	user[0] = "请选择名字"
 	user[1] = "余航"
 	user[2] = "刘羽"
 	user[3] = "郑剑峰"
