@@ -15,6 +15,7 @@
         .table caption span{margin:0 1rem;}
         .l1{margin-left:1rem;}
         img{width:100%;}
+        .table{font-size:0.5rem;}
   </style>
 </head>
 <body>
@@ -72,12 +73,12 @@
 <table class="table table-bordered table-hover table-striped t30 text-center">
 
   <thead>
-   <th>id</th> <th>姓名</th> <th>菜单名</th> <th>点餐时间</th>
+   <th>姓名</th> <th>菜单名</th> <th>点餐时间</th>
   </thead>
   <tbody>
     {{range $key, $value := .ListOrder}}
       <tr>
-          <td>{{.Id}}</td> <td>{{.Username}}</td> <td>{{.Menu}}</td> <td>{{.Created}}</td>
+          <td>{{.Username}}</td> <td>{{.Menu}}</td> <td>{{.Created}}</td>
       </tr>
     {{end}} 
   </tbody>
@@ -91,12 +92,12 @@
 <table class="table table-bordered table-hover table-striped t30 text-center">
 
   <thead>
-   <th>id</th> <th>姓名</th> <th>菜单名</th> <th>点餐时间</th>
+   <th>姓名</th> <th>菜单名</th> <th>点餐时间</th>
   </thead>
   <tbody>
     {{range $key, $value := .ThreeOrderList}}
       <tr>
-          <td>{{.Id}}</td> <td>{{.Username}}</td> <td>{{.Menu}}</td> <td>{{.Created}}</td>
+          <td>{{.Username}}</td> <td>{{.Menu}}</td> <td>{{.Created}}</td>
       </tr>
     {{end}} 
   </tbody>
