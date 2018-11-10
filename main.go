@@ -28,17 +28,18 @@ func showIndex(w http.ResponseWriter, r *http.Request) {
 	t, _ := template.ParseFiles("templates/index.html")
 
 	type data struct {
-		UserName   map[int]string
-		MenuName   map[int]string
-		ListOrder  []model.OrderData
-		TotalMenus [3]int
+		UserName       map[int]string
+		MenuName       map[int]string
+		ListOrder      []model.OrderData
+		TotalMenus     [3]int
+		ThreeOrderList []model.OrderData
 	}
 
 	orderModel := model.Order{}
 	userModel := model.User{}
 	list := orderModel.GetList()
 
-	ShowData := data{userModel.GetUser(), userModel.GetMenu(), list, orderModel.GetSumTotal(list)}
+	ShowData := data{userModel.GetUser(), userModel.GetMenu(), list, orderModel.GetSumTotal(list), orderModel.GetPreThre()}
 	t.Execute(w, ShowData)
 }
 
@@ -54,6 +55,10 @@ func saveOrder(w http.ResponseWriter, r *http.Request) {
 
 	userId, err := strconv.Atoi(r.Form.Get("name"))
 	orderModel.CheckErr(err)
+	if userId == 0 {
+		fmt.Fprint(w, 3)
+		return
+	}
 
 	menuId, err := strconv.Atoi(r.Form.Get("menu"))
 	orderModel.CheckErr(err)
@@ -65,10 +70,11 @@ func saveOrder(w http.ResponseWriter, r *http.Request) {
 		orderModel.Update(menuList[menuId], userId, menuId)
 
 		fmt.Fprint(w, 1)
+		return
 	} else {
 		orderModel.Insert(userList[userId], menuList[menuId], create_time, userId, menuId)
-
 		fmt.Fprint(w, 2)
+		return
 	}
 }
 

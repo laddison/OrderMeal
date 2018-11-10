@@ -86,6 +86,22 @@
 <hr class="t30" />
 <h4>一周菜单：</h4>
 <div style="margin-bottom: 3rem;"><img src="/templates/menu.png"></div>
+
+<h4>近三天点餐名单</h4>
+<table class="table table-bordered table-hover table-striped t30 text-center">
+
+  <thead>
+   <th>id</th> <th>姓名</th> <th>菜单名</th> <th>点餐时间</th>
+  </thead>
+  <tbody>
+    {{range $key, $value := .ThreeOrderList}}
+      <tr>
+          <td>{{.Id}}</td> <td>{{.Username}}</td> <td>{{.Menu}}</td> <td>{{.Created}}</td>
+      </tr>
+    {{end}} 
+  </tbody>
+</table>
+
 </div>
 
 <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -100,10 +116,13 @@
       var userId = $("#user_name").val();
       var menuId = $('input[name="menu"]:checked').val();
       $.post('/save', {name:userId, menu:menuId}, function(data){
+        console.log(data);
          if (data == 1) {
           sayHtml('套餐修改成功！')
-         }else{
-          sayHtml('点餐成功！')
+         }else if (data == 3){
+          sayHtml('选择自己的名字')
+         } else {
+          sayHtml('点餐成功')
          }
       },'json')
     })
@@ -113,6 +132,7 @@
       layer.msg(content, {
         time: 1500, //1.5秒
       },function(){
+        console.log(content);
         location.reload();
       });
     }

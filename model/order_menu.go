@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/mattn/go-sqlite3"
+	"time"
 )
 
 type Order struct {
@@ -26,6 +27,31 @@ func (this *Order) GetList() []OrderData {
 
 	Datas := []OrderData{}
 
+	for rows.Next() {
+		info := OrderData{}
+		err = rows.Scan(&info.Id, &info.Username, &info.Menu, &info.Created, &info.MenuId)
+		this.CheckErr(err)
+
+		Datas = append(Datas, info)
+	}
+
+	return Datas
+}
+
+//获取前三天的点餐信息
+func (this *Order) GetPreThre() []OrderData {
+	t := time.Now()
+	tm := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
+	threeDay := tm.AddDate(0, 0, -3).Format("2006-01-02 15:04:05")
+	today := tm.Format("2006-01-02 15:04:05")
+
+	db, err := sql.Open("sqlite3", "./OrderMeal.db")
+
+	rows, err := db.Query("SELECT id, username, menu, created, menu_id FROM OrderMenu where created > ? and created < ? order by id desc", threeDay, today)
+	defer rows.Close()
+	this.CheckErr(err)
+
+	Datas := []OrderData{}
 	for rows.Next() {
 		info := OrderData{}
 		err = rows.Scan(&info.Id, &info.Username, &info.Menu, &info.Created, &info.MenuId)
