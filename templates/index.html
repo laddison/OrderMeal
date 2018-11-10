@@ -117,26 +117,21 @@
       var menuId = $('input[name="menu"]:checked').val();
       $.post('/save', {name:userId, menu:menuId}, function(data){
          if (data == 1) {
-          sayHtml('套餐修改成功！')
+          sayHtml('套餐修改成功！');
          }else if (data == 3){
-          sayHtml('选择自己的名字')
+          sayHtml('选择自己的名字');
          } else {
-          sayHtml('点餐成功')
+          sayHtml('点餐成功');
          }
       },'json')
     })
 
     // 弹窗
     function sayHtml(content) {
-      layer.open({
-        content: content,
-        skin: 'msg',
-        time: 1.5, //2秒后自动关闭
-        end: function(elem){
-          location.reload() 
-          //console.log(elem);
-        } 
-      });
+      layer.tips(content, '#sub',{
+        time: 20000, 
+        });
+      setTimeout(function(){ location.reload(); }, 1500);
     }
   })
 </script>
