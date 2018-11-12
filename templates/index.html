@@ -15,7 +15,7 @@
         .table caption span{margin:0 1rem;}
         .l1{margin-left:1rem;}
         img{width:100%;}
-        .table{font-size:0.5rem;}
+        .table{font-size:1.5rem;}
         h5 span{margin-right:1rem;color:#FF0099;}
   </style>
 </head>
@@ -76,7 +76,7 @@
   <tbody>
     {{range $key, $value := .ListOrder}}
       <tr>
-          <td>{{.Username}}</td> <td>{{.Menu}}</td> <td>{{.Created}}</td>
+          <td>{{.Username}}</td> <td>{{.Menu}}</td> <td>{{.Weeks}}</td>
       </tr>
     {{end}} 
   </tbody>
@@ -95,7 +95,7 @@
   <tbody>
     {{range $key, $value := .ThreeOrderList}}
       <tr>
-          <td>{{.Username}}</td> <td>{{.Menu}}</td> <td>{{.Created}}</td>
+          <td>{{.Username}}</td> <td>{{.Menu}}</td> <td>{{.Weeks}}</td>
       </tr>
     {{end}} 
   </tbody>

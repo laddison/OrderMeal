@@ -14,8 +14,9 @@ type OrderData struct {
 	Id       int
 	Username string
 	Menu     string
-	Created  string
+	Created  time.Time
 	MenuId   int
+	Weeks    string
 }
 
 func (this *Order) GetList() []OrderData {
@@ -31,6 +32,8 @@ func (this *Order) GetList() []OrderData {
 		info := OrderData{}
 		err = rows.Scan(&info.Id, &info.Username, &info.Menu, &info.Created, &info.MenuId)
 		this.CheckErr(err)
+
+		info.Weeks = info.Created.Weekday().String()
 
 		Datas = append(Datas, info)
 	}
@@ -54,9 +57,11 @@ func (this *Order) GetPreThre() []OrderData {
 	Datas := []OrderData{}
 	for rows.Next() {
 		info := OrderData{}
+
 		err = rows.Scan(&info.Id, &info.Username, &info.Menu, &info.Created, &info.MenuId)
 		this.CheckErr(err)
 
+		info.Weeks = info.Created.Weekday().String()
 		Datas = append(Datas, info)
 	}
 
