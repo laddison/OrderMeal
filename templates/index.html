@@ -61,11 +61,15 @@
 <h5>
   {{range  $key, $value := .TotalMenus}}
    {{if eq $key  0}}
-      米饭套餐: <span>{{$value}} </span>
+      台式牛肉饭: <span>{{$value}} </span>
     {{else if eq $key  1}}
-      炒饭/炒面套餐: <span>{{$value}}</span>
+      咖喱鸡肉饭: <span>{{$value}}</span>
     {{else if eq $key  2}}
-      全素套餐: <span>{{$value}} </span>
+      香菇滑鸡饭: <span>{{$value}} </span>
+    {{else if eq $key  3}}
+      阿嬷嫩牛肉面: <span>{{$value}}</span>
+    {{else if eq $key  4}}
+      霸王牛肉面: <span>{{$value}}</span>
    {{end}}
   {{end}}</h5>
 <table class="table table-bordered table-hover table-striped t30 text-center">

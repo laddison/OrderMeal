@@ -31,7 +31,7 @@ func showIndex(w http.ResponseWriter, r *http.Request) {
 		UserName       map[int]string
 		MenuName       map[int]string
 		ListOrder      []model.OrderData
-		TotalMenus     [3]int
+		TotalMenus     [5]int
 		ThreeOrderList []model.OrderData
 	}
 

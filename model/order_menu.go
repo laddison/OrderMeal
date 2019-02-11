@@ -110,15 +110,19 @@ func (this *Order) UpdateStatus() int64 {
 }
 
 // 统计
-func (this *Order) GetSumTotal(list []OrderData) [3]int {
+func (this *Order) GetSumTotal(list []OrderData) [5]int {
 	var (
 		menu1 int
 		menu2 int
 		menu3 int
+		menu4 int
+		menu5 int
 	)
 	menu1 = 0
 	menu2 = 0
 	menu3 = 0
+	menu4 = 0
+	menu5 = 0
 
 	for _, value := range list {
 		if value.MenuId == 1 {
@@ -127,10 +131,14 @@ func (this *Order) GetSumTotal(list []OrderData) [3]int {
 			menu2 += 1
 		} else if value.MenuId == 3 {
 			menu3 += 1
+		} else if value.MenuId == 4 {
+			menu4 += 1
+		} else if value.MenuId == 5 {
+			menu5 += 1
 		}
 	}
 
-	results := [3]int{menu1, menu2, menu3}
+	results := [5]int{menu1, menu2, menu3, menu4, menu5}
 
 	return results
 }
