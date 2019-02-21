@@ -57,21 +57,21 @@
 </form>
 
 <hr class="t30" />
-
 <h5>
   {{range  $key, $value := .TotalMenus}}
    {{if eq $key  0}}
-      台式牛肉饭: <span>{{$value}} </span>
+      {{index $.MenuName 1}}: <span>{{$value}} </span>
     {{else if eq $key  1}}
-      咖喱鸡肉饭: <span>{{$value}}</span>
+      {{index $.MenuName 2}}: <span>{{$value}}</span>
     {{else if eq $key  2}}
-      香菇滑鸡饭: <span>{{$value}} </span>
+      {{index $.MenuName 3}}: <span>{{$value}} </span>
     {{else if eq $key  3}}
-      阿嬷嫩牛肉面: <span>{{$value}}</span>
+      {{index $.MenuName 4}}: <span>{{$value}}</span>
     {{else if eq $key  4}}
-      霸王牛肉面: <span>{{$value}}</span>
+      {{index $.MenuName 5}}: <span>{{$value}}</span>
    {{end}}
   {{end}}</h5>
+
 <table class="table table-bordered table-hover table-striped t30 text-center">
 
   <thead>
