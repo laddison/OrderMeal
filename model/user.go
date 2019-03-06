@@ -43,11 +43,11 @@ func (this *User) GetUser() map[int]string {
 
 func (this *User) GetMenu() map[int]string {
 	menu := make(map[int]string)
-	menu[1] = "红烧排骨饭"
-	menu[2] = "鱼香肉丝饭"
-	menu[3] = "香菇滑鸡饭"
-	menu[4] = "黑鱼面/粉"
-	menu[5] = "肥牛王牛肉面/粉"
+	menu[1] = "A餐"
+	menu[2] = "B餐"
+	menu[3] = "C餐"
+	menu[4] = "D餐"
+	menu[5] = "E餐"
 
 	return menu
 }
