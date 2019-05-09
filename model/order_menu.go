@@ -19,10 +19,11 @@ type OrderData struct {
 	Weeks    string
 }
 
-func (this *Order) GetList() []OrderData {
+// 获取今日点餐人员
+func (this *Order) GetList(group_name string) []OrderData {
 	db, err := sql.Open("sqlite3", "./OrderMeal.db")
 
-	rows, err := db.Query("SELECT id, username, menu, created, menu_id FROM OrderMenu where status = 0 order by id desc")
+	rows, err := db.Query("SELECT id, username, menu, created, menu_id FROM OrderMenu where status = 0 and group_name=? order by id desc", group_name)
 	defer rows.Close()
 	this.CheckErr(err)
 
@@ -42,7 +43,7 @@ func (this *Order) GetList() []OrderData {
 }
 
 //获取前三天的点餐信息
-func (this *Order) GetPreThre() []OrderData {
+func (this *Order) GetPreThre(group_name string) []OrderData {
 	t := time.Now()
 	tm := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
 	threeDay := tm.AddDate(0, 0, -3).Format("2006-01-02 15:04:05")
@@ -50,7 +51,7 @@ func (this *Order) GetPreThre() []OrderData {
 
 	db, err := sql.Open("sqlite3", "./OrderMeal.db")
 
-	rows, err := db.Query("SELECT id, username, menu, created, menu_id FROM OrderMenu where created > ? and created < ? order by id desc", threeDay, today)
+	rows, err := db.Query("SELECT id, username, menu, created, menu_id FROM OrderMenu where created > ? and created < ? and group_name=? order by id desc", threeDay, today, group_name)
 	defer rows.Close()
 	this.CheckErr(err)
 
@@ -68,31 +69,31 @@ func (this *Order) GetPreThre() []OrderData {
 	return Datas
 }
 
-func (this *Order) GetInfoByUid(userId int) OrderData {
+func (this *Order) GetInfoByUid(userId int, groupName string) OrderData {
 	db, err := sql.Open("sqlite3", "./OrderMeal.db")
 	this.CheckErr(err)
 
 	info := OrderData{}
-	db.QueryRow("SELECT id, username, menu, created, menu_id FROM OrderMenu where status = 0 and  user_id = ? order by id desc", userId).Scan(&info.Id, &info.Username, &info.Menu, &info.Created, &info.MenuId)
+	db.QueryRow("SELECT id, username, menu, created, menu_id FROM OrderMenu where status = 0 and  user_id = ? and group_name = ? order by id desc", userId, groupName).Scan(&info.Id, &info.Username, &info.Menu, &info.Created, &info.MenuId)
 	defer db.Close()
 
 	return info
 }
 
-func (this *Order) Insert(username string, menu string, create_time string, userId int, menuId int) int64 {
+func (this *Order) Insert(username string, menu string, create_time string, userId int, menuId int, group_name string) int64 {
 	db, err := sql.Open("sqlite3", "./OrderMeal.db")
-	stmt, err := db.Prepare("INSERT INTO OrderMenu(username, menu, created, user_id, menu_id) values(?,?,?,?,?)")
-	res, err := stmt.Exec(username, menu, create_time, userId, menuId)
+	stmt, err := db.Prepare("INSERT INTO OrderMenu(username, menu, created, user_id, menu_id,group_name) values(?,?,?,?,?,?)")
+	res, err := stmt.Exec(username, menu, create_time, userId, menuId, group_name)
 	id, err := res.LastInsertId()
 	this.CheckErr(err)
 
 	return id
 }
 
-func (this *Order) Update(menu string, userId int, menuId int) int64 {
+func (this *Order) Update(order_id int, menu string, userId int, menuId int) int64 {
 	db, err := sql.Open("sqlite3", "./OrderMeal.db")
-	stmt, err := db.Prepare("UPDATE OrderMenu set menu = ?, menu_id = ? where  status = 0 and user_id= ?")
-	res, err := stmt.Exec(menu, menuId, userId)
+	stmt, err := db.Prepare("UPDATE OrderMenu set menu = ?, menu_id = ? where  status = 0 and user_id= ? and id=?")
+	res, err := stmt.Exec(menu, menuId, userId, order_id)
 	num, err := res.RowsAffected()
 	this.CheckErr(err)
 

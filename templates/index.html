@@ -48,10 +48,10 @@
       {{end}}
     </div>
   </div>
-
+  
   <div class="c1 t30">注：全素套餐一般为阿拉伯吃的，如果要点也没关系！</div>
-
   <div class="form-group  t30">
+    <input type="hidden" id="groupName" name="groupName" value="{{.GroupName}}" />
       <button type="button" id="sub" class="btn l1 btn-success">好 明天就吃这个 ! </button>
   </div>
 </form>
@@ -121,7 +121,8 @@
     $("#sub").click(function(){
       var userId = $("#user_name").val();
       var menuId = $('input[name="menu"]:checked').val();
-      $.post('/save', {name:userId, menu:menuId}, function(data){
+      var groupName = $('#groupName').val();
+      $.post('/save', {name:userId, menu:menuId,groupName:groupName}, function(data){
          if (data == 1) {
           sayHtml('套餐修改成功！');
          }else if (data == 3){
