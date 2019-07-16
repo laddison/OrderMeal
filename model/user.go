@@ -63,6 +63,7 @@ func (this *User) GetNelabUser() map[int]string {
 	user[17] = "陈弘晟"
 	user[18] = "李国仁"
 	user[19] = "林伟"
+	user[20] = "吴成建"
 	return user
 }
 
